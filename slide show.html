@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {box-sizing: border-box;}
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #000;
+  font-family: Verdana, sans-serif;
+}
+
+.mySlides {
+  display: none;
+  height: 100vh;
+  position: relative;
+}
+
+.slideshow-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+}
+
+.mySlides img {
+  width: 100vw;
+  height: 100vh;
+  object-fit: fill;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.text {
+  color: #ffffff;
+  font-size: 20px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.dot {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+.active {
+  background-color: #717171;
+}
+
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 10px 16px;
+  font-size: 16px;
+  z-index: 1000;
+  background: #21f379;
+  border: none;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<button onclick="window.location.href='index.html'">Back to Home Page</button>
+
+<div class="slideshow-container">
+
+  <div class="mySlides fade">
+    <img src="image/koyal.png">
+    <div class="text">Koyal</div>
+  </div>
+
+  <div class="mySlides fade">
+    <img src="image/love bird.jpeg">
+    <div class="text">Love Bird</div>
+  </div>
+
+  <div class="mySlides fade">
+    <img src="image/peacock.png">
+    <div class="text">Peacock</div>
+  </div>
+
+  <div class="mySlides fade">
+    <img src="image/Ashy bulbul (Hemixos flavala).jpg">
+    <div class="text">Ashy Bulbul</div>
+  </div>
+
+  <div class="mySlides fade">
+    <img src="image/Asian barred owlet (Glaucidium cuculoides).JPG">
+    <div class="text">Asian Barred Owlet</div>
+  </div>
+
+  <div class="mySlides fade">
+    <img src="image/Bar-headed gooose  (Anser Indicus).jpg">
+    <div class="text">Bar-headed Goose (Anser Indicus)</div>
+  </div>
+
+  <div class="mySlides fade">
+    <img src="image/Bearded vulture (Gypaetus barbatus).jpg">
+    <div class="text">Bearded Vulture (Gypaetus barbatus)</div>
+  </div>
+
+  <div class="mySlides fade">
+    <img src="image/Black bulbul  Hypsipetes leucocephalus.JPG">
+    <div class="text">Black Bulbul (Hypsipetes leucocephalus)</div>
+  </div>
+
+  <div class="mySlides fade">
+    <img src="image/Black-headed gull (Chroicocephalus ridibundus).JPG">
+    <div class="text">Black-headed Gull (Chroicocephalus ridibundus)</div>
+  </div>
+
+  <div class="mySlides fade">
+    <img src="image/Blue-capped rock thrush (Monticola cinclorhyncha).jpg">
+    <div class="text">Blue-capped Rock Thrush (Monticola cinclorhyncha)</div>
+  </div>
+
+</div>
+
+<div style="text-align:center; position:absolute; bottom:10px; width:100%;">
+  <span class="dot"></span>
+  <span class="dot"></span>
+  <span class="dot"></span>
+  <span class="dot"></span>
+  <span class="dot"></span>
+  <span class="dot"></span>
+  <span class="dot"></span>
+  <span class="dot"></span>
+  <span class="dot"></span>
+  <span class="dot"></span>
+</div>
+
+<script>
+let slideIndex = 0;
+showSlides();
+
+function showSlides() {
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("dot");
+
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+
+  slideIndex++;
+  if (slideIndex > slides.length) {slideIndex = 1}
+
+  for (let i = 0; i < dots.length; i++) {
+    dots[i].classList.remove("active");
+  }
+
+  slides[slideIndex - 1].style.display = "block";
+  dots[slideIndex - 1].classList.add("active");
+
+  setTimeout(showSlides, 3000); // 3 seconds delay
+}
+</script>
+
+</body>
+</html>

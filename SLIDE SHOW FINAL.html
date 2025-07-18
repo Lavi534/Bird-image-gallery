@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bird Call and Image Gallery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: white;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .mySlides {
+      display: none;
+      height: 100vh;
+      position: relative;
+    }
+    .slideshow-container {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+    .mySlides img {
+      width: 100vw;
+      height: 100vh;
+      object-fit: fill;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    .mySlides audio {
+      position: absolute;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+    }
+    .text {
+      color: #f2f2f2;
+      font-size: 24px;
+      padding: 8px 12px;
+      position: absolute;
+      bottom: 30px;
+      width: 100%;
+      text-align: center;
+      background-color: rgba(0,0,0,0.3);
+    }
+    .dot {
+      height: 15px;
+      width: 15px;
+      margin: 0 2px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.6s ease;
+    }
+    .active {
+      background-color: #717171;
+    }
+    .fade {
+      animation-name: fade;
+      animation-duration: 1.5s;
+    }
+    @keyframes fade {
+      from {opacity: .4} 
+      to {opacity: 1}
+    }
+    button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 8px 16px;
+      font-size: 16px;
+      z-index: 1000;
+      background: #21f379;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<button onclick="window.location.href='index5.html'">Back to Home Page</button>
+<div class="slideshow-container" id="slideshow-container"></div>
+
+<script>
+const cardsData = [
+ { title: "Koyal", image: "image/koyal.png", audio: "image/koyal.mpeg" },
+      { title: "Peacock", image: "image/peacock.png", audio: "image/peacoke.mp3" },
+      { title: "Cheer pheasant", image: "image/Cheer pheasant (Catreus wallichii).jpg", audio: "image/Cheer Pheasant.mp3" },
+      { title: "Sparrow", image: "image/sparrow.jpeg", audio: "image/sparrow.mp3" },
+      { title: "Love Bird", image: "image/love bird.jpeg", audio: "image/love bird.mp3" },
+      { title: "Eastern Whip Bird", image: "image/eastern whip bird.jpeg", audio: "image/eastern-whip-bird.mp3" },
+      { title: "Ashy Bulbul", image: "image/Ashy bulbul (Hemixos flavala).jpg", audio: "image/Ashy bulbul.mp3" },
+      { title: "Asian Barred Owlet", image: "image/Asian barred owlet (Glaucidium cuculoides).JPG", audio: "image/Asian barred owlet.mp3" },
+      { title: "Bar-headed Goose", image: "image/Bar-headed gooose  (Anser Indicus).jpg", audio: "image/Bar Headed Goose.mp3" },
+      { title: "Bearded Vulture", image: "image/Bearded vulture (Gypaetus barbatus).jpg", audio: "image/Bearded vulture.mp3" },
+      { title: "Black Bulbul", image: "image/Black bulbul  Hypsipetes leucocephalus.JPG", audio: "image/Black bulbul.mp3" },
+      { title: "Black-headed Gull", image: "image/Black-headed gull (Chroicocephalus ridibundus).JPG", audio: "image/Black headed gull.mp3" },
+      { title: "Blue-capped Rock Thrush", image: "image/Blue-capped rock thrush (Monticola cinclorhyncha).jpg", audio: "image/Blue capped rock thrush.mp3" },
+      { title: "Blue-throated Barbet", image: "image/Blue-throated barbet (Megalaima asiatica).jpg", audio: "image/Blue throated barbet.mp3" },
+      { title: "Black-headed Ibis", image: "image/Black-headed Ibis (Threskiornis melanocephalus).jpg", audio: "image/Black headed ibis.mp3" },
+      { title: "Blue-fronted Redstart", image: "image/Blue-fronted redstart (Phoenicurus frontalis).jpg", audio: "image/Blue frontend redstart.mp3" },
+      { title: "Black-and-yellow Grosbeak", image: "image/Black-and-yellow grosbeak (Mycerobas icterioides).jpeg", audio: "image/Black and yellow grosbeak.mp3" },
+      { title: "Blue-throated Blue Flycatcher", image: "image/Blue-throated Blue Flycatcher (Cyornis rubeculoides).jpg", audio: "image/Blue throated flycatcher.mp3" },
+      { title: "Brown Fish Owl", image: "image/Brown fish owl (Ketupa zeylonensis).jpg", audio: "image/Brown fish owl.mp3" },
+      { title: "Brown-fronted Woodpecker", image: "image/Brown-fronted woodpecker (Dendrocoptes auriceps).jpeg", audio: "image/Brown fronted woodpecker.mp3" },
+      { title: "Brown Wood Owl", image: "image/Brown Wood owl (Strix Leptogrammica).jpg", audio: "image/Brown wood owl.mp3" },
+      { title: "Changeable Hawk-eagle", image: "image/Changeable hawk-eagle (Nisaetus cirrhatus).JPG", audio: "image/Changeable hawk eagle.mp3" },
+      { title: "Cheer pheasant (Catreus wallichii)", image: "image/Cheer pheasant (Catreus wallichii).jpg", audio: "image/Cheer Pheasant.mp3" },
+      { title: "Chestnut-capped babbler (Timalia pileata)", image: "image/Chestnut-capped babbler (Timalia pileata).jpeg", audio: "image/Chestnut headed bee-eater.mp3" },
+      { title: "Collared Falconet (Microhierax caerulescens)", image: "image/Collared Falconet (Microhierax caerulescens).jpg", audio: "image/Collared falconet.mp3" },
+      { title: "Collared owlet(Glaucidium brodiei)", image: "image/Collared owlet(Glaucidium brodiei).jpg", audio: "image/Collared owlet.mp3" },
+      { title: "Common green magpie (Cissa chinensis)", image: "image/Common green magpie (Cissa chinensis).jpg", audio: "image/Common green magpie.mp3" },
+      { title: "Common kingfisher (Alcedo atthis)", image: "image/Common kingfisher (Alcedo atthis).jpeg", audio: "image/Common Kingfisher.mp3" },
+      { title: "Crested honey buzzard (Pernis ptilorhynchus).JPG", image: "image/Crested honey buzzard (Pernis ptilorhynchus).JPG", audio: "image/Crested honey buzzard.mp3" },
+];
+
+const slideshow = document.getElementById("slideshow-container");
+
+cardsData.forEach(card => {
+  const slide = document.createElement("div");
+  slide.className = "mySlides fade";
+  slide.innerHTML = `
+    <img src="${card.image}" alt="${card.title}" />
+    <audio src="${card.audio}" autoplay></audio>
+    <div class="text">${card.title}</div>
+  `;
+  slideshow.appendChild(slide);
+});
+
+let slideIndex = 0;
+function showSlides() {
+  const slides = document.getElementsByClassName("mySlides");
+  const audios = document.querySelectorAll(".mySlides audio");
+
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+    if (audios[i]) {
+      audios[i].pause();
+      audios[i].currentTime = 0;
+    }
+  }
+
+  slideIndex++;
+  if (slideIndex > slides.length) {slideIndex = 1}
+
+  slides[slideIndex - 1].style.display = "block";
+  if (audios[slideIndex - 1]) {
+    audios[slideIndex - 1].play();
+  }
+
+  setTimeout(showSlides, 5000);
+}
+
+window.onload = showSlides;
+</script>
+</body>
+</html>

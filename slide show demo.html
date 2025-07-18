@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bird Call and Image Gallery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: white;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .mySlides {
+      display: none;
+      height: 100vh;
+      position: relative;
+    }
+    .slideshow-container {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+    .mySlides img {
+      width: 100vw;
+      height: 100vh;
+      object-fit: fill;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    .mySlides audio {
+      position: absolute;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+    }
+    .text {
+      color: #f2f2f2;
+      font-size: 24px;
+      padding: 8px 12px;
+      position: absolute;
+      bottom: 30px;
+      width: 100%;
+      text-align: center;
+      background-color: rgba(0,0,0,0.3);
+    }
+    .dot {
+      height: 15px;
+      width: 15px;
+      margin: 0 2px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.6s ease;
+    }
+    .active {
+      background-color: #717171;
+    }
+    .fade {
+      animation-name: fade;
+      animation-duration: 1.5s;
+    }
+    @keyframes fade {
+      from {opacity: .4} 
+      to {opacity: 1}
+    }
+    button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 8px 16px;
+      font-size: 16px;
+      z-index: 1000;
+      background: #21f379;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<button onclick="window.location.href='index5.html'">Back to Home Page</button>
+<div class="slideshow-container" id="slideshow-container"></div>
+
+<script>
+const cardsData = [
+ 
+      { title: "Cheer pheasant", image: "image/Cheer pheasant (Catreus wallichii).jpg", audio: "image/Cheer Pheasant.mp3" },
+      
+     
+      { title: "Ashy Bulbul", image: "image/Ashy bulbul (Hemixos flavala).jpg", audio: "image/Ashy bulbul.mp3" },
+      { title: "Asian Barred Owlet", image: "image/Asian barred owlet (Glaucidium cuculoides).JPG", audio: "image/Asian barred owlet.mp3" },
+      { title: "Bar-headed Goose", image: "image/Bar-headed gooose  (Anser Indicus).jpg", audio: "image/Bar Headed Goose.mp3" },
+      { title: "Bearded Vulture", image: "image/Bearded vulture (Gypaetus barbatus).jpg", audio: "image/Bearded vulture.mp3" },
+      { title: "Black Bulbul", image: "image/Black bulbul  Hypsipetes leucocephalus.JPG", audio: "image/Black bulbul.mp3" },
+      { title: "Black-headed Gull", image: "image/Black-headed gull (Chroicocephalus ridibundus).JPG", audio: "image/Black headed gull.mp3" },
+      { title: "Blue-capped Rock Thrush", image: "image/Blue-capped rock thrush (Monticola cinclorhyncha).jpg", audio: "image/Blue capped rock thrush.mp3" },
+      { title: "Blue-throated Barbet", image: "image/Blue-throated barbet (Megalaima asiatica).jpg", audio: "image/Blue throated barbet.mp3" },
+      { title: "Black-headed Ibis", image: "image/Black-headed Ibis (Threskiornis melanocephalus).jpg", audio: "image/Black headed ibis.mp3" },
+      { title: "Blue-fronted Redstart", image: "image/Blue-fronted redstart (Phoenicurus frontalis).jpg", audio: "image/Blue frontend redstart.mp3" },
+      { title: "Black-and-yellow Grosbeak", image: "image/Black-and-yellow grosbeak (Mycerobas icterioides).jpeg", audio: "image/Black and yellow grosbeak.mp3" },
+      { title: "Blue-throated Blue Flycatcher", image: "image/Blue-throated Blue Flycatcher (Cyornis rubeculoides).jpg", audio: "image/Blue throated flycatcher.mp3" },
+      { title: "Brown Fish Owl", image: "image/Brown fish owl (Ketupa zeylonensis).jpg", audio: "image/Brown fish owl.mp3" },
+      { title: "Brown-fronted Woodpecker", image: "image/Brown-fronted woodpecker (Dendrocoptes auriceps).jpeg", audio: "image/Brown fronted woodpecker.mp3" },
+      { title: "Brown Wood Owl", image: "image/Brown Wood owl (Strix Leptogrammica).jpg", audio: "image/Brown wood owl.mp3" },
+      { title: "Changeable Hawk-eagle", image: "image/Changeable hawk-eagle (Nisaetus cirrhatus).JPG", audio: "image/Changeable hawk eagle.mp3" },
+      { title: "Cheer pheasant (Catreus wallichii)", image: "image/Cheer pheasant (Catreus wallichii).jpg", audio: "image/Cheer Pheasant.mp3" },
+      { title: "Chestnut-capped babbler (Timalia pileata)", image: "image/Chestnut-capped babbler (Timalia pileata).jpeg", audio: "image/Chestnut headed bee-eater.mp3" },
+      { title: "Collared Falconet (Microhierax caerulescens)", image: "image/Collared Falconet (Microhierax caerulescens).jpg", audio: "image/Collared falconet.mp3" },
+      { title: "Collared owlet(Glaucidium brodiei)", image: "image/Collared owlet(Glaucidium brodiei).jpg", audio: "image/Collared owlet.mp3" },
+      { title: "Common green magpie (Cissa chinensis)", image: "image/Common green magpie (Cissa chinensis).jpg", audio: "image/Common green magpie.mp3" },
+      { title: "Common kingfisher (Alcedo atthis)", image: "image/Common kingfisher (Alcedo atthis).jpeg", audio: "image/Common Kingfisher.mp3" },
+      { title: "Crested honey buzzard (Pernis ptilorhynchus).JPG", image: "image/Crested honey buzzard (Pernis ptilorhynchus).JPG", audio: "image/Crested honey buzzard.mp3" },
+       { title: "crested kingfisher (Megaceryle lugubris)2", image: "image/crested kingfisher (Megaceryle lugubris)2.jpg", audio: "image/Crested Kingfisher.mp3" },
+       { title: "crimson sunbird", image: "image/crimson sunbird.jpeg", audio: "image/Crimson sunbird.mp3" },
+       { title: "Emerald Dove (Chalcophaps indica)", image: "image/Emerald Dove (Chalcophaps indica).jpg", audio: "image/Emerald dove.mp3" },
+       { title: "Eurasian Hoopoe (Upupa epops)", image: "image/Eurasian Hoopoe (Upupa epops).jpg", audio: "image/Eurasian hoopoe.mp3" },
+       { title: "Eurasian jay (Garrulus glandarius)", image: "image/Eurasian jay (Garrulus glandarius).JPG", audio: "image/Eurasian Jay.mp3" },
+       { title: "European Goldfinch (Carduelis carduelis)", image: "image/European Goldfinch (Carduelis carduelis).jpeg", audio: "image/European Goldfinch.mp3" },
+       { title: "Great barbet (Psilopogon virens)", image: "image/Great barbet (Psilopogon virens).JPG", audio: "image/Great barbet.mp3" },
+       { title: "Great slaty woodpecker (Mulleripicus pulverulentus)", image: "image/Great slaty woodpecker (Mulleripicus pulverulentus).jpeg", audio: "image/Great slaty woodpecker.mp3" },
+       { title: "Great white pelican(Pelecanus onocrotalus)", image: "image/Great white pelican(Pelecanus onocrotalus).JPG", audio: "image/Great white pelican.mp3" },
+       { title: "Green Bee-eater (Merops orientalis)", image: "image/Green Bee-eater (Merops orientalis).JPG", audio: "image/Green bee-eater.mp3g" },
+       { title: "Green-billed malkoha (Phaenicophaeus tristis)", image: "image/Green-billed malkoha (Phaenicophaeus tristis).jpg", audio: "image/Green billed malkoha.mp3" },
+       
+      { title: "Green-tailed sunbird (Aethopyga nipalensis)", image: "image/Green-tailed sunbird (Aethopyga nipalensis).JPG", audio: "image/Green tailed sunbird.mp3" },
+      { title: "Grey crested tit  (Lophophanes dichrous)", image: "image/Grey crested tit  (Lophophanes dichrous).jpg", audio: "image/Gray crested tit.mp3" },
+      { title: "Grey wagtail (Motacilla cinerea)", image: "image/Grey wagtail (Motacilla cinerea).jpg", audio: "image/Gray wagtail.mp3" },
+      { title: "Grey-headed woodpecker (Picus canus)", image: "image/Grey-headed woodpecker (Picus canus).jpg", audio: "image/Gray headed woodpecker.mp3" },
+      { title: "Grey-headed parakeet (Psittacula finschii)", image: "image/Grey-headed parakeet (Psittacula finschii).jpeg", audio: "image/Gray headed parakeet.mp3" },
+      { title: "Himalayan bulbul  (Pycnonotus leucogenys)", image: "image/Himalayan bulbul  (Pycnonotus leucogenys).JPG", audio: "image/Himalayan bulbul.mp3" },
+      { title: "Himalayan wooodpecker (Dendrocopos himalayensis) Parul", image: "image/Himalayan wooodpecker (Dendrocopos himalayensis) Parul.jpg", audio: "image/Himalayan woodpecker.mp3" },
+      { title: "Ibisbill (Ibidorhyncha struthersii)", image: "image/Ibisbill (Ibidorhyncha struthersii).jpeg", audio: "image/Ibisbill.mp3" },
+      { title: "Indian gray hornbill (Ocyceros birostris)", image: "image/Indian gray hornbill (Ocyceros birostris).JPG", audio: "image/Indian Gray horbill.mp3" },
+      { title: "Indian paradise flycatcher (Terpsiphone paradisi)Female", image: "image/Indian paradise flycatcher (Terpsiphone paradisi)Female.JPG", audio: "image/Indian paradise flycatcher.mp3" },
+      { title: "Indian paradise flycatcher (Terpsiphone paradisi)male", image: "image/Indian paradise flycatcher (Terpsiphone paradisi)male.jpeg", audio: "image/Indian paradise flycatcher.mp3" },
+     
+       { title: "Indian Peafowl(Pavo cristatus)", image: "image/Indian Peafowl(Pavo cristatus).jpg", audio: "image/Indian peafowl.mp3" },
+        { title: "Indian pitta (Pitta brachyura)", image: "image/Indian pitta (Pitta brachyura).JPG", audio: "image/Indian pitta.mp3" },
+         { title: "Indian white-eye (Zosterops palpebrosus)", image: "image/Indian white-eye (Zosterops palpebrosus).jpg", audio: "image/Indian white-eye.mp3" },
+          { title: "Khalij Pheasant pair (Lophura leucomelanos)", image: "image/Khalij Pheasant pair (Lophura leucomelanos).jpg", audio: "image/Kalij Pheasant.mp3" },
+           { title: "image/Koklass Pheasant (Pucrasia macrolopha)", image: "image/Koklass Pheasant (Pucrasia macrolopha).jpg", audio: "image/Koklass Pheasant.mp3" },
+            { title: "Love Bird", image: "image/love bird.jpeg", audio: "image/love bird.mp3" },
+      
+       { title: "Eastern Whip Bird", image: "image/eastern whip bird.jpeg", audio: "image/eastern-whip-bird.mp3" },
+];
+
+const slideshow = document.getElementById("slideshow-container");
+
+cardsData.forEach(card => {
+  const slide = document.createElement("div");
+  slide.className = "mySlides fade";
+  slide.innerHTML = `
+    <img src="${card.image}" alt="${card.title}" />
+    <audio src="${card.audio}" autoplay></audio>
+    <div class="text">${card.title}</div>
+  `;
+  slideshow.appendChild(slide);
+});
+
+let slideIndex = 0;
+function showSlides() {
+  const slides = document.getElementsByClassName("mySlides");
+  const audios = document.querySelectorAll(".mySlides audio");
+
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+    if (audios[i]) {
+      audios[i].pause();
+      audios[i].currentTime = 0;
+    }
+  }
+
+  slideIndex++;
+  if (slideIndex > slides.length) {slideIndex = 1}
+
+  slides[slideIndex - 1].style.display = "block";
+  if (audios[slideIndex - 1]) {
+    audios[slideIndex - 1].play();
+  }
+
+  setTimeout(showSlides, 3000);
+}
+
+window.onload = showSlides;
+</script>
+</body>
+</html>

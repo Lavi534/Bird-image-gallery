@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bird Call and Image Gallery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bird Call Manual Slideshow</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,27 +13,26 @@
       padding: 0;
       overflow: hidden;
     }
-    .mySlides {
-      display: none;
-      height: 100vh;
-      position: relative;
-    }
     .slideshow-container {
       width: 100vw;
       height: 100vh;
       position: relative;
       overflow: hidden;
     }
-    .mySlides img {
-      width: 100vw;
+    .slide {
+      display: none;
       height: 100vh;
-      object-fit: fill;
+      width: 100vw;
       position: absolute;
       top: 0;
       left: 0;
-      z-index: -1;
     }
-    .mySlides audio {
+    .slide img {
+      width: 100vw;
+      height: 100vh;
+      object-fit: fill;
+    }
+    .slide audio {
       position: absolute;
       bottom: 60px;
       left: 50%;
@@ -45,53 +44,39 @@
       font-size: 24px;
       padding: 8px 12px;
       position: absolute;
-      bottom: 30px;
+      bottom: 20px;
       width: 100%;
       text-align: center;
-      background-color: rgba(0,0,0,0.3);
+      background-color: rgba(0, 0, 0, 0.3);
     }
-    .dot {
-      height: 15px;
-      width: 15px;
-      margin: 0 2px;
-      background-color: #bbb;
-      border-radius: 50%;
-      display: inline-block;
-      transition: background-color 0.6s ease;
-    }
-    .active {
-      background-color: #717171;
-    }
-    .fade {
-      animation-name: fade;
-      animation-duration: 1.5s;
-    }
-    @keyframes fade {
-      from {opacity: .4} 
-      to {opacity: 1}
-    }
-    button {
+    .controls {
       position: absolute;
       top: 10px;
       left: 10px;
+      z-index: 10;
+    }
+    .controls button {
       padding: 8px 16px;
+      margin: 5px;
       font-size: 16px;
-      z-index: 1000;
       background: #21f379;
       border: none;
       cursor: pointer;
+    
     }
   </style>
 </head>
 <body>
-
-<button onclick="window.location.href='index5.html'">Back to Home Page</button>
-<div class="slideshow-container" id="slideshow-container"></div>
+<div class="controls">
+  <button onclick="prevSlide()">Previous</button>
+  <button onclick="nextSlide()">Next</button>
+  <button onclick="window.location.href='index5.html'">Back</button>
+</div>
+<div class="slideshow-container" id="slideshow"></div>
 
 <script>
 const cardsData = [
- 
-      { title: "Cheer pheasant", image: "image/Cheer pheasant (Catreus wallichii).jpg", audio: "image/Cheer Pheasant.mp3" },
+ { title: "Cheer pheasant", image: "image/Cheer pheasant (Catreus wallichii).jpg", audio: "image/Cheer Pheasant.mp3" },
       
      
       { title: "Ashy Bulbul", image: "image/Ashy bulbul (Hemixos flavala).jpg", audio: "image/Ashy bulbul.mp3" },
@@ -197,46 +182,47 @@ const cardsData = [
            
       
        { title: "Eastern Whip Bird", image: "image/eastern whip bird.jpeg", audio: "image/eastern-whip-bird.mp3" },
-]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+];
 
-const slideshow = document.getElementById("slideshow-container");
-
-cardsData.forEach(card => {
-  const slide = document.createElement("div");
-  slide.className = "mySlides fade";
-  slide.innerHTML = `
+const container = document.getElementById("slideshow");
+cardsData.forEach((card, i) => {
+  const div = document.createElement("div");
+  div.className = "slide";
+  div.innerHTML = `
     <img src="${card.image}" alt="${card.title}" />
-    <audio src="${card.audio}" autoplay></audio>
+    <audio src="${card.audio}" controls></audio>
     <div class="text">${card.title}</div>
   `;
-  slideshow.appendChild(slide);
+  container.appendChild(div);
 });
 
 let slideIndex = 0;
-function showSlides() {
-  const slides = document.getElementsByClassName("mySlides");
-  const audios = document.querySelectorAll(".mySlides audio");
-
-  for (let i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-    if (audios[i]) {
-      audios[i].pause();
-      audios[i].currentTime = 0;
+const slides = document.getElementsByClassName("slide");
+function showSlide(index) {
+  [...slides].forEach((s, i) => {
+    s.style.display = i === index ? "block" : "none";
+    const audio = s.querySelector("audio");
+    if (audio) {
+      if (i === index) audio.play();
+      else {
+        audio.pause();
+        audio.currentTime = 0;
+      }
     }
-  }
-
-  slideIndex++;
-  if (slideIndex > slides.length) {slideIndex = 1}
-
-  slides[slideIndex - 1].style.display = "block";
-  if (audios[slideIndex - 1]) {
-    audios[slideIndex - 1].play();
-  }
-
-  setTimeout(showSlides, 3000);
+  });
 }
 
-window.onload = showSlides;
+function nextSlide() {
+  slideIndex = (slideIndex + 1) % slides.length;
+  showSlide(slideIndex);
+}
+
+function prevSlide() {
+  slideIndex = (slideIndex - 1 + slides.length) % slides.length;
+  showSlide(slideIndex);
+}
+
+window.onload = () => showSlide(slideIndex);
 </script>
 </body>
 </html>
